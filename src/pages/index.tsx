@@ -6,12 +6,17 @@ import { useState } from 'react';
 import FormFieldWrapper from '../components/reusable/FormFieldWrapper';
 import Page from '../components/reusable/Page';
 import Character from '../types/Character';
+import { useQuery } from 'react-query';
+import { fetchClasses } from '../services/dndFetchers';
 
 const Index: React.FC = () => {
 	const formProps = useForm({
 		resolver: zodResolver(Character.pick({ name: true }))
 	});
 	const [formValue, setFormValue] = useState<any>();
+	const { data } = useQuery('classes', fetchClasses);
+
+	console.log('(index) data: ', data);
 	return (
 		<Page as={Center}>
 			<Box>
