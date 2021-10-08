@@ -5,7 +5,7 @@ import Skill from './Skill';
 
 const Character = IdentifiableObject.extend({
 	name: z.string().nonempty({ message: 'Please provide a name' }),
-	class: z.string(),
+	class: z.string().nonempty({ message: 'Please select a class' }),
 	race: z.string(),
 	skills: Skill.array(),
 	attributes: z.map(EAttribute, z.number().int().min(1)),

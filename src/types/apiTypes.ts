@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const BaseObject = z.object({
+export const BaseDndObject = z.object({
 	index: z.string().nonempty(),
 	name: z.string().nonempty(),
 	url: z.string().nonempty(),
@@ -8,11 +8,11 @@ const BaseObject = z.object({
 
 export const QueryListResult = z.object({
 	count: z.number().min(1),
-	results: z.array(BaseObject),
+	results: z.array(BaseDndObject),
 });
 
 export namespace DndApiEntities {
-	export const Class = BaseObject.extend({
+	export const Class = BaseDndObject.extend({
 		hitDie: z.number().min(1),
 		proficiency_choices: z.array(z.any()),
 		proficiencies: z.array(z.any()),
@@ -27,6 +27,6 @@ export namespace DndApiEntities {
 	});
 }
 
-export type DndListFetcher = (
-	addr: string
-) => Promise<z.infer<typeof QueryListResult>>;
+export type DndListFetcher<Params extends any[] = []> = (
+	...p: Params
+) => Promise<z.infer<typeof BaseDndObject>[]>;
