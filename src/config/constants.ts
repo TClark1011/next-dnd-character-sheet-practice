@@ -9,3 +9,25 @@ export const ABILITY_SCORE_NAMES = [
 	'Constitution',
 	'Charisma',
 ] as const;
+
+// eslint-disable-next-line const-case/uppercase
+export const SKILL_NAMES = [
+	'Acrobatics',
+	'Animal Handling',
+	'Arcana',
+	'Athletics',
+	'Deception',
+	'History',
+	'Insight',
+	'Intimidation',
+	'Investigation',
+	'Medicine',
+	'Nature',
+	'Perception',
+	'Performance',
+	'Persuasion',
+	'Religion',
+	'Sleight of Hand',
+	'Stealth',
+	'Survival',
+] as const;

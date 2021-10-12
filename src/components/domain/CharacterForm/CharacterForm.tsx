@@ -1,4 +1,5 @@
 import { Input, Box, Select, Button, Heading, Stack } from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchFullSkills } from '../../../services/dndFetchers';
@@ -21,7 +22,12 @@ const CharacterForm = ({ classes, races }: CharacterFormProps): JSX.Element => {
 
 	return (
 		<Box>
-			{/* <Form handleSubmit={setFormValue}>
+			<Form
+				handleSubmit={setFormValue}
+				resolver={zodResolver(
+					Character.schema.pick({ name: true, race: true, class: true })
+				)}
+			>
 				<Stack spacing={6}>
 					<FormFieldWrapper<Character.Props>
 						registration={['name']}
@@ -57,12 +63,12 @@ const CharacterForm = ({ classes, races }: CharacterFormProps): JSX.Element => {
 							</Select>
 						)}
 					</FormFieldWrapper>
-					{skills.data && (
-						<SkillSection skills={skills.data.map(Skill.apiToCustom)} />
-					)}
 					<Button type="submit">Submit</Button>
 				</Stack>
-			</Form> */}
+			</Form>
+			{skills.data && (
+				<SkillSection skills={skills.data.map(Skill.apiToCustom)} />
+			)}
 			<AbilityScoreSection />
 			<Box>
 				<Heading>Submitted Form Values</Heading>

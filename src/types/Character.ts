@@ -8,7 +8,7 @@ namespace Character {
 		name: z.string().nonempty({ message: 'Please provide a name' }),
 		class: z.string().nonempty({ message: 'Please select a class' }),
 		race: z.string(),
-		skills: Skill.schema.array(),
+		skills: z.record(Skill.schema.shape.name, Skill.schema.shape.level),
 		ability_scores: z.record(AbilityScore.name, AbilityScore.schema),
 	});
 
