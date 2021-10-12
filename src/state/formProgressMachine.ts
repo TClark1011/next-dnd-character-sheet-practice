@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { FormProgress } from '../types/FormProgress';
 
 const formProgressMachine = createMachine<
-	z.infer<typeof FormProgress.Context>,
+	FormProgress.Context.Props,
 	z.infer<typeof FormProgress.Event>
 >(
 	{
@@ -14,19 +14,18 @@ const formProgressMachine = createMachine<
 		states: {
 			[FormProgress.EStates.inProgress]: {
 				on: {
-					[FormProgress.EEventNames.nextPage]: {
-						actions: 'nextPage',
-					},
+					[FormProgress.EEventNames.nextPage]:
+						FormProgress.EEventNames.nextPage,
 				},
 			},
 		},
 	},
 	{
 		actions: {
-			nextPage: assign({
+			[FormProgress.EEventNames.nextPage]: assign({
 				page: (ctx, e) => FormProgress.Events.NextPage.parse(e) && ctx.page + 1,
 			}),
-			prevPage: assign({
+			[FormProgress.EEventNames.prevPage]: assign({
 				page: (ctx, e) => FormProgress.Events.PrevPage.parse(e) && ctx.page - 1,
 			}),
 		},

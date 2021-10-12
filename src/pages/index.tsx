@@ -4,7 +4,7 @@ import Page from '../components/reusable/Page';
 import { fetchClasses, fetchRaces } from '../services/dndFetchers';
 import CharacterForm, {
 	CharacterFormProps
-} from '../components/domain/CharacterForm';
+} from '../components/domain/CharacterForm/CharacterForm';
 import pickName from '../utils/pickName';
 
 export type LandingPageProps = {

@@ -5,9 +5,12 @@ import StateEvent from './StateEvent';
 export namespace FormProgress {
 	const PageNumber = z.number().min(0);
 
-	export const Context = z.object({
-		page: PageNumber,
-	});
+	export namespace Context {
+		export const schema = z.object({
+			page: PageNumber,
+		});
+		export type Props = z.infer<typeof schema>;
+	}
 
 	export enum EStates {
 		inProgress = 'in-progress',

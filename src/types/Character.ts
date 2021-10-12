@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import EAttribute from './EAttribute';
+import AbilityScore from './AbilityScore';
 import IdentifiableObject from './IdentifiableObject';
 import Skill from './Skill';
 
@@ -9,7 +9,7 @@ namespace Character {
 		class: z.string().nonempty({ message: 'Please select a class' }),
 		race: z.string(),
 		skills: Skill.schema.array(),
-		attributes: z.map(EAttribute, z.number().int().min(1)),
+		ability_scores: z.record(AbilityScore.name, AbilityScore.schema),
 	});
 
 	export type Props = z.infer<typeof schema>;

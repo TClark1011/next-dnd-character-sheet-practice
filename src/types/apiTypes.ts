@@ -1,22 +1,26 @@
 import { z } from 'zod';
 
-export const BaseDndObject = z.object({
-	index: z.string().nonempty(),
-	name: z.string().nonempty(),
-	url: z
-		.string()
-		.nonempty()
-		.transform((s) => s.replace('api/', '')),
-});
+export namespace BaseDndObject {
+	export const schema = z.object({
+		index: z.string().nonempty(),
+		name: z.string().nonempty(),
+		url: z
+			.string()
+			.nonempty()
+			.transform((s) => s.replace('api/', '')),
+	});
+
+	export type Props = z.infer<typeof schema>;
+}
 
 export const QueryListResult = z.object({
 	count: z.number().min(1),
-	results: z.array(BaseDndObject),
+	results: z.array(BaseDndObject.schema),
 });
 
 export namespace DndApiEntities {
 	export namespace Class {
-		export const schema = BaseDndObject.extend({
+		export const schema = BaseDndObject.schema.extend({
 			hitDie: z.number().min(1),
 			proficiency_choices: z.array(z.any()),
 			proficiencies: z.array(z.any()),
@@ -32,8 +36,23 @@ export namespace DndApiEntities {
 
 		export type Props = z.infer<typeof schema>;
 	}
+
+	export namespace Skill {
+		export const schema = BaseDndObject.schema.extend({
+			desc: z.string().array(),
+			ability_score: BaseDndObject.schema,
+		});
+
+		export type Props = z.infer<typeof schema>;
+	}
 }
 
-export type DndListFetcher<Params extends any[] = []> = (
-	...p: Params
-) => Promise<z.infer<typeof BaseDndObject>[]>;
+export type DndFetcher<
+	Params extends any[] = [],
+	ReturnType extends {} = {}
+> = (...p: Params) => Promise<ReturnType>;
+
+export type DndListFetcher<Params extends any[] = []> = DndFetcher<
+	Params,
+	BaseDndObject.Props[]
+>;
